@@ -42,25 +42,64 @@ const Animal = model("Animal", animalSchema)
 const app = express()
 
 
-/////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // Middleware
-/////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 app.use(morgan("tiny"))
 app.use(methodOverride("_method"))
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 
 
-////////////////////////////////////////////
+///////////////////////////////////////////////////
 // Routes
-////////////////////////////////////////////
+///////////////////////////////////////////////////
 app.get("/", (req, res) => {
     res.send("your server is running... better catch it.")
 })
 
-//////////////////////////////////////////////
+// Create Seed Route
+app.get("/animals/seed", (req, res) => {
+    const startAnimals = [
+        {species: "Black Rhino", extinct: false, location: "Eastern and Southern Africa", lifeExpectancy: 35},
+        {species: "Steller's Sea Cow", extinct: true, location: "Commander Islands", lifeExpectancy: 50},
+        {species: "Arctic Wolf", extinct: false, location: "Queen Elizabeth Islands", lifeExpectancy: 7},
+        {species: "Baiji White Dolphin", extinct: true, location: "China", lifeExpectancy: 24}
+    ]
+    // Delete all animals
+    Animal.remove({}, (err, data) => {
+        // Seed Starter Animals
+        Animal.create(startAnimals, (err, data) => {
+            // send created animals as response to confirm creation
+            res.json(data);
+        })
+    })
+})
+
+// Index Route
+//callback method
+app.get("/animals", (req, res) => {
+    Animal.find({}, (err, animals) => {
+        res.render("animals/index.ejs", { animals })
+    });
+});
+// .then method
+// app.get("/animals", (req, res) => {
+//     Animal.find({})
+//     .then((animals) => {
+//         res.render("animals/index.ejs", {animals})
+//     });
+// });
+//  async/await method
+// app.get("/animals", async (req, res) => {
+//     const animals = await Animal.find({});
+//     res.render("animals/index.ejs", { animals });
+// })
+
+
+///////////////////////////////////////////////////
 // Server Listener
-//////////////////////////////////////////////
+///////////////////////////////////////////////////
 const PORT = process.env.PORT
 app.listen(PORT, () => console.log(`Now Listening on port ${PORT}`))
 
