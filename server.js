@@ -96,7 +96,14 @@ app.get("/animals", (req, res) => {
 //     res.render("animals/index.ejs", { animals });
 // })
 
-
+// Show Route
+app.get("/animals/:id", (req, res) => {
+    const id = req.params.id;
+    // find the particular fruit from the database
+    Animal.findById(id,(err, animal) => {
+        res.render("animals/show.ejs", {animal})
+    })
+})
 
 ///////////////////////////////////////////////////
 // Server Listener
