@@ -58,7 +58,7 @@ app.get("/", (req, res) => {
     res.send("your server is running... better catch it.")
 })
 
-// Create Seed Route
+// Seed Route
 app.get("/animals/seed", (req, res) => {
     const startAnimals = [
         {species: "Black Rhino", extinct: false, location: "Eastern and Southern Africa", lifeExpectancy: 35},
@@ -95,6 +95,22 @@ app.get("/animals", (req, res) => {
 //     const animals = await Animal.find({});
 //     res.render("animals/index.ejs", { animals });
 // })
+
+// New Route
+app.get("/animals/new", (req, res) => {
+    res.render("animals/new.ejs")
+})
+
+// Create Route
+app.post("/animals", (req, res) => {
+    req.body.species = req.body.species;
+    req.body.extinct= req.body.extinct;
+    Animal.create(req.body, (err, fruit) => {
+        res.redirect("/animals")
+    })
+})
+
+
 
 // Show Route
 app.get("/animals/:id", (req, res) => {
