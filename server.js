@@ -101,6 +101,25 @@ app.get("/animals/new", (req, res) => {
     res.render("animals/new.ejs")
 })
 
+// Destroy Route
+app.delete("/animals/:id", (req, res) => {
+    const id = req.params.id;
+    Animal.findByIdAndRemove(id, (err, animal) => {
+        // if(err) res.json({err});
+        res.redirect("/animals")
+    })
+})
+
+// Update Route
+app.put("/animals/:id", (req, res) => {
+    const id = req.params.id;
+    req.body.species = req.body.species;
+    req.body.extinct= req.body.extinct;
+    Animal.findByIdAndUpdate(id, req.body, {new: true}, (err, animal) => {
+        res.redirect("/animals")
+    })
+})
+
 // Create Route
 app.post("/animals", (req, res) => {
     req.body.species = req.body.species;
@@ -118,15 +137,6 @@ app.get("/animals/:id/edit", (req, res) => {
     })
 })
 
-// Update Route
-app.put("/animals/:id", (req, res) => {
-    const id = req.params.id;
-    req.body.species = req.body.species;
-    req.body.extinct= req.body.extinct;
-    Animal.findByIdAndUpdate(id, req.body, {new: true}, (err, fruit) => {
-        res.redirect("/animals")
-    })
-})
 
 // Show Route
 app.get("/animals/:id", (req, res) => {
