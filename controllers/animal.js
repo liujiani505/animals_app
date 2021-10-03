@@ -14,22 +14,22 @@ const router = express.Router()
 /////////////////////////////////////////////////
 
 // Seed Route
-router.get("/seed", (req, res) => {
-    const startAnimals = [
-        {species: "Black Rhino", extinct: false, location: "Eastern and Southern Africa", lifeExpectancy: 35},
-        {species: "Steller's Sea Cow", extinct: true, location: "Commander Islands", lifeExpectancy: 50},
-        {species: "Arctic Wolf", extinct: false, location: "Queen Elizabeth Islands", lifeExpectancy: 7},
-        {species: "Baiji White Dolphin", extinct: true, location: "China", lifeExpectancy: 24}
-    ]
-    // Delete all animals
-    Animal.remove({}, (err, data) => {
-        // Seed Starter Animals
-        Animal.create(startAnimals, (err, data) => {
-            // send created animals as response to confirm creation
-            res.json(data);
-        })
-    })
-})
+// router.get("/seed", (req, res) => {
+//     const startAnimals = [
+//         {species: "Black Rhino", extinct: false, location: "Eastern and Southern Africa", lifeExpectancy: 35},
+//         {species: "Steller's Sea Cow", extinct: true, location: "Commander Islands", lifeExpectancy: 50},
+//         {species: "Arctic Wolf", extinct: false, location: "Queen Elizabeth Islands", lifeExpectancy: 7},
+//         {species: "Baiji White Dolphin", extinct: true, location: "China", lifeExpectancy: 24}
+//     ]
+//     // Delete all animals
+//     Animal.remove({}, (err, data) => {
+//         // Seed Starter Animals
+//         Animal.create(startAnimals, (err, data) => {
+//             // send created animals as response to confirm creation
+//             res.json(data);
+//         })
+//     })
+// })
 
 // Index Route
 //callback method
