@@ -6,12 +6,12 @@ const express = require("express")
 const morgan = require("morgan")
 const methodOverride = require("method-override")
 const AnimalRouter = require("./controllers/animal")
-
+const UserRouter = require("./controllers/user")
 
 /////////////////////////////////////////////////
 // Create Express Application Object
 /////////////////////////////////////////////////
-const app = express()
+const app = express();
 
 
 ////////////////////////////////////////////////
@@ -22,6 +22,7 @@ app.use(methodOverride("_method"))
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.use("/animals", AnimalRouter)
+app.use("/user", UserRouter)
 
 ///////////////////////////////////////////////////
 // Initial Route
