@@ -34,7 +34,7 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
     // get the data from the request body
-    const {username, password} = req.body
+    const {username, password} = req.body;
     User.findOne({username}, (err, user) => {
         // check if user exists
         if(!user) {
@@ -43,6 +43,8 @@ router.post("/login", (req, res) => {
             // check if password matches
             const result = bcrypt.compareSync(password, user.password);
             if(result){
+                req.session.username = username
+                req.session.loggedIn = true
                 res.redirect("/animals");
             } else {
                 res.send("wrong password")
@@ -51,6 +53,13 @@ router.post("/login", (req, res) => {
     });
 });
 
+// logout route
+router.get("/logout", (req, res) => {
+    // destroy session and redirect to main page
+    req.session.destroy((err) =>{
+        res.redirect("/")
+    })
+})
 
 /////////////////////////////////////////////////
 // Export the Router

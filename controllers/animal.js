@@ -7,7 +7,21 @@ const Animal = require("../models/animal")
 /////////////////////////////////////////////////
 // Create Route
 /////////////////////////////////////////////////
+
 const router = express.Router()
+
+/////////////////////////////////////////////////
+// router middleware
+/////////////////////////////////////////////////
+// Authorization Middleware
+router.use((req, res, next) => {
+    if(req.session.loggedIn) {
+        next();
+    } else {
+        res.redirect("/user/login")
+    }
+})
+
 
 /////////////////////////////////////////////////
 // Routes
@@ -34,7 +48,7 @@ const router = express.Router()
 // Index Route
 //callback method
 router.get("/", (req, res) => {
-    Animal.find({}, (err, animals) => {
+    Animal.find({username: req.session.username}, (err, animals) => {
         res.render("animals/index.ejs", { animals })
     });
 });
@@ -79,6 +93,8 @@ router.put("/:id", (req, res) => {
 router.post("/", (req, res) => {
     req.body.species = req.body.species;
     req.body.extinct= req.body.extinct;
+    // add the username to the req.body
+    req.body.username = req.session.username;
     Animal.create(req.body, (err, fruit) => {
         res.redirect("/animals")
     })

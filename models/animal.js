@@ -11,7 +11,8 @@ const animalSchema = new Schema({
     species: String,
     extinct: Boolean,
     location: String,
-    lifeExpectancy: Number
+    lifeExpectancy: Number,
+    username: String
 })
 const Animal = model("Animal", animalSchema)
 
